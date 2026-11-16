@@ -1,6 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { EquiposModule } from './equipos/equipos.module';
+import { TorneosModule } from './torneos/torneos.module';
+import { InscripcionesModule } from './inscripciones/inscripciones.module';
+import { PartidosModule } from './partidos/partidos.module';
+import { ResultadosModule } from './resultados/resultados.module';
 
 // Módulo raíz: aquí se arma toda la aplicación
 @Module({
@@ -22,6 +28,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: true, // crea/actualiza las tablas según las entidades (solo desarrollo)
       }),
     }),
+
+    UsuariosModule,
+
+    EquiposModule,
+
+    TorneosModule,
+
+    InscripcionesModule,
+
+    PartidosModule,
+
+    ResultadosModule,
   ],
 })
 export class AppModule {}
