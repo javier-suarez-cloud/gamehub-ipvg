@@ -1,0 +1,19 @@
+/* Estilos generales de la aplicación */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #111827;
+  color: #f9fafb;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+footer {
+  text-align: center;
+  color: #9ca3af;
+  padding: 16px;
+}
