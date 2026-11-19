@@ -7,6 +7,7 @@ import { TorneosModule } from './torneos/torneos.module';
 import { InscripcionesModule } from './inscripciones/inscripciones.module';
 import { PartidosModule } from './partidos/partidos.module';
 import { ResultadosModule } from './resultados/resultados.module';
+import { AuthModule } from './auth/auth.module';
 
 // Módulo raíz: aquí se arma toda la aplicación
 @Module({
@@ -40,6 +41,8 @@ import { ResultadosModule } from './resultados/resultados.module';
     PartidosModule,
 
     ResultadosModule,
+
+    AuthModule,
   ],
 })
 export class AppModule {}
