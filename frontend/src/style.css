@@ -17,3 +17,82 @@ footer {
   color: #9ca3af;
   padding: 16px;
 }
+
+/* ---------- Componentes reutilizables (listas, tarjetas, formularios) ---------- */
+a {
+  color: #60a5fa;
+}
+
+.tarjeta {
+  background: #1f2937;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.fila {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fila-separada {
+  justify-content: space-between;
+}
+
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: #f9fafb;
+}
+
+label {
+  display: block;
+  margin: 12px 0 4px;
+}
+
+button,
+.boton {
+  display: inline-block;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button.peligro {
+  background: #dc2626;
+}
+
+button.secundario {
+  background: #374151;
+}
+
+.error {
+  background: #7f1d1d;
+  color: #fecaca;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.aviso {
+  color: #9ca3af;
+}
+
+.etiqueta {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #065f46;
+}
+
+.etiqueta.inactivo {
+  background: #4b5563;
+}

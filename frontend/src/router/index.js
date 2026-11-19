@@ -7,6 +7,9 @@ const routes = [
   // Las demás vistas se cargan solo cuando se visitan (carga diferida)
   { path: '/torneos', name: 'torneos', component: () => import('../views/TorneosView.vue') },
   { path: '/equipos', name: 'equipos', component: () => import('../views/EquiposView.vue') },
+  // "nuevo" va antes de ":id", si no Vue Router lo tomaría como el id de un equipo
+  { path: '/equipos/nuevo', name: 'equipo-nuevo', component: () => import('../views/EquipoFormView.vue') },
+  { path: '/equipos/:id', name: 'equipo-detalle', component: () => import('../views/EquipoDetalleView.vue') },
   { path: '/partidos', name: 'partidos', component: () => import('../views/PartidosView.vue') },
   { path: '/ranking', name: 'ranking', component: () => import('../views/RankingView.vue') },
   // Cualquier ruta que no exista muestra la página "no encontrada"
