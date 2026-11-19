@@ -37,7 +37,7 @@ async function crearEquipo() {
 
     <p v-if="!hayUsuario" class="error">Debes iniciar sesión para crear un equipo.</p>
 
-    <form v-else @submit.prevent="crearEquipo">
+    <form v-else class="formulario" @submit.prevent="crearEquipo">
       <label for="nombre">Nombre del equipo</label>
       <input id="nombre" v-model="nombre" required />
 
@@ -46,7 +46,7 @@ async function crearEquipo() {
 
       <p v-if="error" class="error">{{ error }}</p>
 
-      <div class="fila" style="margin-top: 16px">
+      <div class="fila">
         <button type="submit" :disabled="enviando">Crear equipo</button>
         <RouterLink to="/equipos">Cancelar</RouterLink>
       </div>

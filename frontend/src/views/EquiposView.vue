@@ -37,25 +37,33 @@ onMounted(cargarEquipos)
     </div>
 
     <!-- Búsqueda por nombre: al enviar el formulario se vuelve a pedir la lista -->
-    <form class="fila" @submit.prevent="cargarEquipos">
+    <form class="filtros" @submit.prevent="cargarEquipos">
       <input v-model="buscar" placeholder="Buscar por nombre" />
       <button type="submit">Buscar</button>
     </form>
 
     <p v-if="cargando" class="aviso">Cargando equipos...</p>
-    <p v-else-if="error" class="error">{{ error }}</p>
+
+    <!-- Error de comunicación con la API (diseño de la Actividad 13) -->
+    <div v-else-if="error" class="error-api">
+      <p>{{ error }}</p>
+      <button @click="cargarEquipos">Reintentar</button>
+    </div>
+
     <p v-else-if="equipos.length === 0" class="aviso">No hay equipos para mostrar.</p>
 
-    <!-- Una tarjeta por equipo; el enlace lleva al detalle /equipos/:id -->
-    <div v-for="equipo in equipos" :key="equipo.id" class="tarjeta">
-      <div class="fila fila-separada">
-        <RouterLink :to="`/equipos/${equipo.id}`"><strong>{{ equipo.nombre }}</strong></RouterLink>
-        <span class="etiqueta" :class="equipo.estado">{{ equipo.estado }}</span>
+    <!-- Una tarjeta por equipo en grilla; el enlace lleva al detalle /equipos/:id -->
+    <div v-else class="grilla">
+      <div v-for="equipo in equipos" :key="equipo.id" class="tarjeta">
+        <div class="fila fila-separada">
+          <RouterLink :to="`/equipos/${equipo.id}`"><strong>{{ equipo.nombre }}</strong></RouterLink>
+          <span class="etiqueta" :class="equipo.estado">{{ equipo.estado }}</span>
+        </div>
+        <p class="aviso">
+          {{ equipo.juegoPreferido }} · Capitán: {{ equipo.capitan.alias }} ·
+          {{ equipo.integrantes.length }} integrante(s)
+        </p>
       </div>
-      <p class="aviso">
-        {{ equipo.juegoPreferido }} · Capitán: {{ equipo.capitan.alias }} ·
-        {{ equipo.integrantes.length }} integrante(s)
-      </p>
     </div>
   </section>
 </template>

@@ -1,98 +1,165 @@
-/* Estilos generales de la aplicación */
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #111827;
-  color: #f9fafb;
+/* Estilos generales: mismo diseño de las Actividades 10 a 14 y del Trabajo 2 */
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+  font-synthesis: none;
 }
 
-main {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 16px;
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: #174a7e; }
+
+/* ===== Barra de navegación (Actividad 11) ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 7%;
+  background: #174a7e;
+  color: white;
+}
+.navbar h2 { margin: 0; white-space: nowrap; }
+.navbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+.navbar a {
+  color: white;
+  text-decoration: none;
+}
+.navbar a.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
 }
 
-footer {
+/* ===== Contenedor de cada página ===== */
+.pagina {
+  width: min(1100px, 92%);
+  margin: 32px auto;
+}
+
+/* ===== Portada (Actividad 11) ===== */
+.hero {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
   text-align: center;
-  color: #9ca3af;
-  padding: 16px;
+  padding: 40px 8%;
+}
+.boton-principal {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: #174a7e;
+  color: white;
+  text-decoration: none;
 }
 
-/* ---------- Componentes reutilizables (listas, tarjetas, formularios) ---------- */
-a {
-  color: #60a5fa;
+/* ===== Búsqueda y filtros ===== */
+.filtros {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  flex-wrap: wrap;
 }
+.filtros input,
+.filtros select { padding: 10px; }
 
+/* ===== Tarjetas en grilla (Actividad 14 / Trabajo 2) ===== */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
 .tarjeta {
-  background: #1f2937;
-  border-radius: 8px;
   padding: 16px;
   margin-bottom: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+}
+.tarjeta h2,
+.tarjeta h3 { margin: 0 0 6px; font-size: 1.1rem; }
+
+/* ===== Formularios ===== */
+.formulario {
+  display: grid;
+  gap: 10px;
+  max-width: 650px;
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+}
+.formulario h1,
+.formulario h2 { margin: 0; }
+.formulario input,
+.formulario textarea,
+.formulario select { padding: 10px; }
+label { font-weight: 600; }
+.formulario > button { justify-self: start; }
+
+/* ===== Botones ===== */
+button,
+.boton {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #174a7e;
+  color: white;
+  text-decoration: none;
+}
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+button.secundario { background: white; color: #1f2937; border: 1px solid #cbd5e1; }
+button.peligro { background: #b42318; }
+
+/* ===== Mensajes ===== */
+.error { color: #b42318; }
+.correcto { color: #18794e; }
+.aviso { color: #64748b; }
+/* Actividad 13: mensaje cuando la API no responde */
+.error-api {
+  padding: 16px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #b42318;
 }
 
+/* ===== Utilidades usadas en equipos ===== */
 .fila {
   display: flex;
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
 }
-
-.fila-separada {
-  justify-content: space-between;
-}
-
-input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #374151;
-  background: #111827;
-  color: #f9fafb;
-}
-
-label {
-  display: block;
-  margin: 12px 0 4px;
-}
-
-button,
-.boton {
-  display: inline-block;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  background: #2563eb;
-  color: #fff;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-button.peligro {
-  background: #dc2626;
-}
-
-button.secundario {
-  background: #374151;
-}
-
-.error {
-  background: #7f1d1d;
-  color: #fecaca;
-  padding: 8px 12px;
-  border-radius: 6px;
-}
-
-.aviso {
-  color: #9ca3af;
-}
-
+.fila-separada { justify-content: space-between; }
 .etiqueta {
-  font-size: 0.8rem;
-  padding: 2px 8px;
+  display: inline-block;
+  padding: 2px 10px;
   border-radius: 999px;
-  background: #065f46;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
+.etiqueta.inactivo { background: #e5e7eb; color: #475569; }
 
-.etiqueta.inactivo {
-  background: #4b5563;
+footer { padding: 20px; text-align: center; color: #64748b; }
+
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
