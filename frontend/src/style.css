@@ -156,6 +156,29 @@ button.peligro { background: #b42318; }
 .etiqueta.inactivo { background: #e5e7eb; color: #475569; }
 .tarjeta .etiqueta { margin-left: 6px; }
 
+/* ===== Partidos y ranking ===== */
+.marcador { font-size: 1.05rem; }
+.marcador span { margin: 0 6px; }
+.marcador-grande { font-size: 2.2rem; margin: 8px 0; }
+.tabla-contenedor { overflow-x: auto; }
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+.tabla th,
+.tabla td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+.tabla th:nth-child(2),
+.tabla td:nth-child(2) { text-align: left; }
+.tabla thead { background: #174a7e; color: white; }
+.tabla tbody tr:first-child td { background: #eff6ff; }
+
 footer { padding: 20px; text-align: center; color: #64748b; }
 
 @media (max-width: 700px) {
