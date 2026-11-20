@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpCode, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
@@ -6,6 +7,7 @@ import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto';
 import { AuthGuard } from './guards/auth.guard';
 
 // Controller de autenticación: todas sus rutas empiezan con /auth
+@ApiTags('Autenticación') // grupo en Swagger
 @Controller('auth')
 export class AuthController {
   // Nest entrega el service listo para usar (inyección de dependencias)
@@ -26,6 +28,7 @@ export class AuthController {
 
   // GET /auth/perfil -> datos del usuario conectado (requiere token)
   @Get('perfil')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard)
   perfil(@Req() req: { usuario: { id: number } }) {
     return this.authService.perfil(req.usuario.id);
@@ -33,6 +36,7 @@ export class AuthController {
 
   // PATCH /auth/perfil -> edita nombre y/o alias (requiere token)
   @Patch('perfil')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard)
   actualizarPerfil(
     @Req() req: { usuario: { id: number } },
