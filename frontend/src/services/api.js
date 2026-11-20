@@ -5,14 +5,20 @@ const API_URL = 'http://localhost:3000'
 export async function pedirApi(ruta, opciones = {}) {
   const token = localStorage.getItem('token') // token JWT guardado al iniciar sesión
 
-  const r = await fetch(`${API_URL}${ruta}`, {
-    ...opciones,
-    headers: {
-      'Content-Type': 'application/json',
-      // Si hay sesión, envía el token para las rutas protegidas
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-  })
+  let r
+  try {
+    r = await fetch(`${API_URL}${ruta}`, {
+      ...opciones,
+      headers: {
+        'Content-Type': 'application/json',
+        // Si hay sesión, envía el token para las rutas protegidas
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    })
+  } catch {
+    // fetch falla así cuando la API está apagada o no hay conexión
+    throw new Error('No fue posible conectar con la API. Revisa que el backend esté encendido.')
+  }
 
   // Algunas respuestas no traen cuerpo; en ese caso queda null
   const datos = await r.json().catch(() => null)

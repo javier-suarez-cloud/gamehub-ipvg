@@ -8,7 +8,7 @@ import Navbar from './components/Navbar.vue'
   <Navbar />
 
   <!-- Aquí Vue Router dibuja la vista de la ruta actual -->
-  <main>
+  <main class="pagina">
     <RouterView />
   </main>
 
