@@ -16,6 +16,20 @@ const routes = [
     meta: { requiereSesion: true },
   },
   { path: '/torneos', name: 'torneos', component: () => import('../views/TorneosView.vue') },
+  // meta.soloAdmin = además de sesión, exige rol administrador
+  {
+    path: '/torneos/nuevo',
+    name: 'torneo-nuevo',
+    component: () => import('../views/TorneoFormView.vue'),
+    meta: { requiereSesion: true, soloAdmin: true },
+  },
+  { path: '/torneos/:id', name: 'torneo-detalle', component: () => import('../views/TorneoDetalleView.vue') },
+  {
+    path: '/torneos/:id/editar',
+    name: 'torneo-editar',
+    component: () => import('../views/TorneoFormView.vue'),
+    meta: { requiereSesion: true, soloAdmin: true },
+  },
   { path: '/equipos', name: 'equipos', component: () => import('../views/EquiposView.vue') },
   // "nuevo" va antes de ":id", si no Vue Router lo tomaría como el id de un equipo
   {
@@ -39,8 +53,13 @@ const router = createRouter({
 // Guardia de navegación: se ejecuta antes de entrar a cada ruta
 // Si la ruta requiere sesión y no hay usuario, manda al login y recuerda a dónde quería ir
 router.beforeEach((to) => {
-  if (to.meta.requiereSesion && !usuarioActual()) {
+  const usuario = usuarioActual()
+  if (to.meta.requiereSesion && !usuario) {
     return { path: '/login', query: { volver: to.fullPath } }
+  }
+  // Si la ruta es solo para administrador y el usuario no lo es, vuelve al listado de torneos
+  if (to.meta.soloAdmin && usuario.rol !== 'admin') {
+    return '/torneos'
   }
 })
 
