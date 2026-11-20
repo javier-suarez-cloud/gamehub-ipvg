@@ -10,6 +10,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TorneosService } from './torneos.service';
 import { CrearTorneoDto } from './dto/crear-torneo.dto';
 import { ActualizarTorneoDto } from './dto/actualizar-torneo.dto';
@@ -18,6 +19,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
 // Controller de torneos: rutas /torneos
+@ApiTags('Torneos') // grupo en Swagger
 @Controller('torneos')
 export class TorneosController {
   constructor(private readonly torneosService: TorneosService) {}
@@ -41,6 +43,7 @@ export class TorneosController {
 
   // POST /torneos -> crear (solo admin)
   @Post()
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   create(@Body() dto: CrearTorneoDto) {
@@ -49,6 +52,7 @@ export class TorneosController {
 
   // PATCH /torneos/:id -> editar (solo admin)
   @Patch(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: ActualizarTorneoDto) {
@@ -57,6 +61,7 @@ export class TorneosController {
 
   // DELETE /torneos/:id -> eliminar (solo admin)
   @Delete(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   remove(@Param('id', ParseIntPipe) id: number) {
