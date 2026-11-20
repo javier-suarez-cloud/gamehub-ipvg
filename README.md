@@ -284,7 +284,16 @@ Tablero: [GameHub Kanban](https://github.com/users/javier-suarez-cloud/projects/
 
 ### Pruebas automáticas
 
-Se ejecutan con `cd backend && npm test`. (Sección a cargo de Fabián: detalle de los tests y resultados.)
+Se ejecutan con `cd backend && npm test`. Son **pruebas unitarias con Jest** sobre los *services* del backend, que concentran las reglas de negocio. Los repositorios de TypeORM se reemplazan por simulacros (*mocks*), así que corren en segundos y **no necesitan MySQL**. Cada archivo está junto al service que prueba (`*.service.spec.ts`).
+
+| Archivo | Qué verifica | Pruebas |
+|---|---|---|
+| `equipos/equipos.service.spec.ts` | El que crea el equipo queda de capitán e integrante; nombre repetido (409); solo capitán o admin editan o eliminan (403); agregar integrante repetido (409) o inexistente (404); el capitán no se puede quitar (400) | 14 |
+| `partidos/partidos.service.spec.ts` | Equipos distintos (400); ambos equipos inscritos y aceptados en el torneo (400); torneo inexistente (404) o finalizado (400); un partido jugado no se reprograma; el detalle trae el resumen del resultado | 11 |
+| `resultados/resultados.service.spec.ts` | El ganador se calcula con los puntajes; empate sin ganador solo en liga y rechazado en eliminación (400); un solo resultado por partido (409); el partido pasa a "jugado" y vuelve a "programado" al anular; **ranking**: 3 puntos por victoria, 1 por empate, orden por puntos y diferencia, y recálculo al cambiar un resultado | 14 |
+| `inscripciones/inscripciones.service.spec.ts` | Inscripción duplicada (409); cupo máximo (400); plazo cerrado (400); equipo inactivo (400); solo el capitán o un admin inscriben (403) | 9 |
+
+**Resultado:** 4 suites y **48 pruebas, todas pasan**. Con `npm run test:cov` la cobertura de los services probados es de 97 % en equipos, 91 % en resultados, 80 % en partidos y 76 % en inscripciones. Los services de autenticación, torneos y usuarios **no tienen pruebas automáticas todavía**; se verificaron con las pruebas manuales de arriba, que están detalladas en [`docs/PRUEBAS_MANUALES.md`](docs/PRUEBAS_MANUALES.md) (55 comprobaciones).
 
 ## 15. Problemas encontrados y cómo se resolvieron
 
@@ -311,9 +320,9 @@ En la parte de Javier se usó IA como asistente durante el desarrollo, de forma 
 
 | Elemento | Fabián Díaz |
 | --- | --- |
-| Herramienta | (a completar por Fabián) |
-| Uso | (a completar por Fabián) |
-| Parte afectada | (a completar por Fabián) |
-| Revisión del estudiante | (a completar por Fabián) |
+| Herramienta | Claude (Anthropic), usado a través de Claude Code |
+| Uso | Generación del código de sus módulos a partir de la guía del curso y del enunciado, escritura y ejecución de las pruebas automáticas (Jest) y de las pruebas manuales contra MySQL y en el navegador, y redacción de `docs/PRUEBAS_MANUALES.md` y de su parte de este README |
+| Parte afectada | Frontend: proyecto Vue, router, `Navbar`, `api.js`. Backend: `equipos/` (DTO, service, controller), `partidos/` y `resultados/` (incluido el cálculo del ranking). Frontend: vistas de equipos, partidos, detalle y ranking, `PartidoCard`, `sesion.js` y `formato.js`. Pruebas: los 4 archivos `*.service.spec.ts` y `docs/PRUEBAS_MANUALES.md` |
+| Revisión del estudiante | Preparó el entorno local (MySQL, `.env` y la base `gamehub_db`), revisó y aprobó los Pull Requests #12, #14, #16, #17 y #19 de Javier (con observaciones, como la validación de `torneoId`), y las pruebas se ejecutaron en su computador con MySQL antes de cada commit. Los commits y Pull Requests salen de su cuenta y es responsable de poder explicar cada parte en la interrogación |
 
 Todo el código entregado es responsabilidad de ambos integrantes, incluido el desarrollado con apoyo de IA.
