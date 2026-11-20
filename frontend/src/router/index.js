@@ -40,6 +40,14 @@ const routes = [
   },
   { path: '/equipos/:id', name: 'equipo-detalle', component: () => import('../views/EquipoDetalleView.vue') },
   { path: '/partidos', name: 'partidos', component: () => import('../views/PartidosView.vue') },
+  // "nuevo" va antes de ":id" por la misma razón que en equipos; solo el administrador programa partidos
+  {
+    path: '/partidos/nuevo',
+    name: 'partido-nuevo',
+    component: () => import('../views/PartidoFormView.vue'),
+    meta: { requiereSesion: true, soloAdmin: true },
+  },
+  { path: '/partidos/:id', name: 'partido-detalle', component: () => import('../views/PartidoDetalleView.vue') },
   { path: '/ranking', name: 'ranking', component: () => import('../views/RankingView.vue') },
   // Cualquier ruta que no exista muestra la página "no encontrada"
   { path: '/:pathMatch(.*)*', name: 'no-encontrada', component: () => import('../views/NoEncontradaView.vue') },
