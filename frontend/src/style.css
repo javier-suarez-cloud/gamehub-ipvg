@@ -154,6 +154,7 @@ button.peligro { background: #b42318; }
   font-weight: 700;
 }
 .etiqueta.inactivo { background: #e5e7eb; color: #475569; }
+.tarjeta .etiqueta { margin-left: 6px; }
 
 footer { padding: 20px; text-align: center; color: #64748b; }
 
