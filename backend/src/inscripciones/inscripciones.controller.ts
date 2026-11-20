@@ -11,6 +11,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InscripcionesService } from './inscripciones.service';
 import { CrearInscripcionDto } from './dto/crear-inscripcion.dto';
 import { ActualizarInscripcionDto } from './dto/actualizar-inscripcion.dto';
@@ -22,14 +23,16 @@ import { Roles } from '../auth/decorators/roles.decorator';
 type PeticionConUsuario = { usuario: { id: number; rol: string } };
 
 // Controller de inscripciones: rutas /inscripciones
+@ApiTags('Inscripciones') // grupo en Swagger
 @Controller('inscripciones')
 export class InscripcionesController {
   constructor(private readonly inscripcionesService: InscripcionesService) {}
 
   // GET /inscripciones?torneoId=1 -> inscripciones de un torneo (público)
+  // ParseIntPipe opcional: si torneoId no es un número responde 400 (observación de Fabián en el PR #17)
   @Get()
-  findAll(@Query('torneoId') torneoId?: string) {
-    return this.inscripcionesService.findAll(torneoId ? Number(torneoId) : undefined);
+  findAll(@Query('torneoId', new ParseIntPipe({ optional: true })) torneoId?: number) {
+    return this.inscripcionesService.findAll(torneoId);
   }
 
   // GET /inscripciones/:id -> detalle (404 si no existe)
@@ -40,6 +43,7 @@ export class InscripcionesController {
 
   // POST /inscripciones -> inscribir un equipo (capitán del equipo o admin)
   @Post()
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard)
   create(@Body() dto: CrearInscripcionDto, @Req() req: PeticionConUsuario) {
     return this.inscripcionesService.create(dto, req.usuario);
@@ -47,6 +51,7 @@ export class InscripcionesController {
 
   // PATCH /inscripciones/:id -> aceptar o rechazar (solo admin)
   @Patch(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   cambiarEstado(@Param('id', ParseIntPipe) id: number, @Body() dto: ActualizarInscripcionDto) {
@@ -55,6 +60,7 @@ export class InscripcionesController {
 
   // DELETE /inscripciones/:id -> cancelar (capitán del equipo o admin)
   @Delete(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard)
   remove(@Param('id', ParseIntPipe) id: number, @Req() req: PeticionConUsuario) {
     return this.inscripcionesService.remove(id, req.usuario);

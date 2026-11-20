@@ -11,6 +11,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ResultadosService } from './resultados.service';
 import { RegistrarResultadoDto, ActualizarResultadoDto } from './dto/guardar-resultado.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
@@ -21,6 +22,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 type PeticionConUsuario = { usuario: { id: number; rol: string } };
 
 // Controller de resultados: rutas /resultados
+@ApiTags('Resultados') // grupo en Swagger
 @Controller('resultados')
 export class ResultadosController {
   constructor(private readonly resultadosService: ResultadosService) {}
@@ -39,6 +41,7 @@ export class ResultadosController {
 
   // POST /resultados -> registrar el resultado oficial de un partido (solo admin)
   @Post()
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   create(@Body() dto: RegistrarResultadoDto, @Req() req: PeticionConUsuario) {
@@ -47,6 +50,7 @@ export class ResultadosController {
 
   // PATCH /resultados/:id -> corregir los puntajes (solo admin)
   @Patch(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   update(
@@ -59,6 +63,7 @@ export class ResultadosController {
 
   // DELETE /resultados/:id -> anular el resultado (solo admin)
   @Delete(':id')
+  @ApiBearerAuth() // en Swagger: requiere token
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin')
   remove(@Param('id', ParseIntPipe) id: number) {
@@ -67,6 +72,7 @@ export class ResultadosController {
 }
 
 // Controller del ranking: ruta /ranking (la tabla se calcula, no se guarda)
+@ApiTags('Ranking') // grupo en Swagger
 @Controller('ranking')
 export class RankingController {
   constructor(private readonly resultadosService: ResultadosService) {}
